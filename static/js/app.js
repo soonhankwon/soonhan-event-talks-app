@@ -57,7 +57,8 @@ document.addEventListener('DOMContentLoaded', () => {
         charCount: document.getElementById('char-count'),
         templateButtons: document.querySelectorAll('.template-btn'),
         btnCopyTweet: document.getElementById('btn-copy-tweet'),
-        btnTweetIntent: document.getElementById('btn-tweet-intent')
+        btnTweetIntent: document.getElementById('btn-tweet-intent'),
+        themeToggle: document.getElementById('theme-toggle')
     };
 
     // Standard Categories list for mapping
@@ -67,6 +68,31 @@ document.addEventListener('DOMContentLoaded', () => {
        INITIALIZATION & DATA FETCHING
        ========================================================================== */
     
+    // Theme Switcher Initialization
+    const sunIcon = elements.themeToggle.querySelector('.sun-icon');
+    const moonIcon = elements.themeToggle.querySelector('.moon-icon');
+    
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    applyTheme(savedTheme);
+
+    elements.themeToggle.addEventListener('click', () => {
+        const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        applyTheme(newTheme);
+    });
+
+    function applyTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
+        if (theme === 'light') {
+            sunIcon.style.display = 'none';
+            moonIcon.style.display = 'block';
+        } else {
+            sunIcon.style.display = 'block';
+            moonIcon.style.display = 'none';
+        }
+    }
+
     // Fetch data on page load
     fetchReleases();
 

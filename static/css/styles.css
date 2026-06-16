@@ -50,6 +50,57 @@
     --radius-md: 10px;
     --radius-sm: 6px;
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* Ambient Glow Variables */
+    --color-glow-1: rgba(56, 139, 253, 0.08);
+    --color-glow-2: rgba(163, 112, 247, 0.05);
+
+    /* Composer & Utility variables */
+    --color-drawer-bg: #0f172a;
+    --color-tweet-bg: #000000;
+    --color-tweet-border: #2f3336;
+    --color-tweet-txt: #e7e9ea;
+    --color-tweet-muted: #71767b;
+    --color-code-bg: rgba(255, 255, 255, 0.06);
+    --color-code-txt: #f0f6fc;
+    --color-template-btn-bg: #16181c;
+    --color-shadow-drawer: rgba(0, 0, 0, 0.5);
+    --color-input-bg: rgba(9, 13, 22, 0.7);
+}
+
+:root[data-theme="light"] {
+    /* Theme Colors (Modern Sleek Light Mode) */
+    --color-bg: #f8fafc;
+    --color-surface: rgba(255, 255, 255, 0.75);
+    --color-surface-hover: rgba(255, 255, 255, 0.95);
+    --color-border: rgba(0, 0, 0, 0.08);
+    --color-border-glow: rgba(56, 139, 253, 0.18);
+    
+    /* Text Hierarchy */
+    --color-text-primary: #0f172a;
+    --color-text-secondary: #475569;
+    --color-text-muted: #94a3b8;
+
+    /* Badges & Shadows */
+    --gradient-card-border: linear-gradient(180deg, rgba(0, 0, 0, 0.06) 0%, rgba(0, 0, 0, 0.02) 100%);
+    --shadow-soft: 0 4px 20px -2px rgba(15, 23, 42, 0.08);
+    --shadow-glow: 0 0 20px rgba(56, 139, 253, 0.08);
+    
+    /* Ambient Glows */
+    --color-glow-1: rgba(56, 139, 253, 0.03);
+    --color-glow-2: rgba(163, 112, 247, 0.02);
+
+    /* Drawer & Tweet composer */
+    --color-drawer-bg: #ffffff;
+    --color-tweet-bg: #f7f9fa;
+    --color-tweet-border: #e1e8ed;
+    --color-tweet-txt: #0f1419;
+    --color-tweet-muted: #536471;
+    --color-code-bg: rgba(0, 0, 0, 0.05);
+    --color-code-txt: #0f172a;
+    --color-template-btn-bg: #f0f3f4;
+    --color-shadow-drawer: rgba(15, 23, 42, 0.15);
+    --color-input-bg: rgba(255, 255, 255, 0.9);
 }
 
 /* ==========================================================================
@@ -80,7 +131,7 @@ body::before {
     left: 10%;
     width: 600px;
     height: 600px;
-    background: radial-gradient(circle, rgba(56, 139, 253, 0.08) 0%, rgba(0, 0, 0, 0) 70%);
+    background: radial-gradient(circle, var(--color-glow-1) 0%, transparent 70%);
     z-index: -1;
     pointer-events: none;
 }
@@ -92,7 +143,7 @@ body::after {
     right: 5%;
     width: 500px;
     height: 500px;
-    background: radial-gradient(circle, rgba(163, 112, 247, 0.05) 0%, rgba(0, 0, 0, 0) 70%);
+    background: radial-gradient(circle, var(--color-glow-2) 0%, transparent 70%);
     z-index: -1;
     pointer-events: none;
 }
@@ -379,13 +430,13 @@ a:hover {
 }
 .search-wrapper input {
     width: 100%;
-    background: rgba(9, 13, 22, 0.7);
+    background: var(--color-input-bg);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
     padding: 12px 38px 12px 14px;
     font-family: var(--font-primary);
     font-size: 14px;
-    color: white;
+    color: var(--color-text-primary);
     outline: none;
     transition: var(--transition-smooth);
 }
@@ -669,12 +720,12 @@ a:hover {
     margin-bottom: 0;
 }
 .card-body code {
-    background: rgba(255, 255, 255, 0.06);
+    background: var(--color-code-bg);
     padding: 2px 6px;
     border-radius: var(--radius-sm);
     font-family: monospace;
     font-size: 13px;
-    color: #f0f6fc;
+    color: var(--color-code-txt);
 }
 .card-body ul, .card-body ol {
     margin-left: 20px;
@@ -821,9 +872,9 @@ a:hover {
     bottom: 0;
     width: 100%;
     max-width: 520px;
-    background: #0f172a;
+    background: var(--color-drawer-bg);
     border-left: 1px solid var(--color-border);
-    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+    box-shadow: -10px 0 30px var(--color-shadow-drawer);
     display: flex;
     flex-direction: column;
     transform: translateX(100%);
@@ -900,8 +951,8 @@ a:hover {
 
 /* Twitter Mockup Card */
 .tweet-card-editor {
-    background: #000000;
-    border: 1px solid #2f3336;
+    background: var(--color-tweet-bg);
+    border: 1px solid var(--color-tweet-border);
     border-radius: var(--radius-lg);
     padding: 16px;
     display: flex;
@@ -928,21 +979,21 @@ a:hover {
 .tweet-display-name {
     font-weight: 700;
     font-size: 15px;
-    color: #e7e9ea;
+    color: var(--color-tweet-txt);
 }
 .tweet-username {
-    color: #71767b;
+    color: var(--color-tweet-muted);
     font-size: 14px;
 }
 .twitter-x-logo {
-    color: #e7e9ea;
+    color: var(--color-tweet-txt);
 }
 
 .tweet-composer-area textarea {
     width: 100%;
     background: transparent;
     border: none;
-    color: #e7e9ea;
+    color: var(--color-tweet-txt);
     font-family: var(--font-primary);
     font-size: 16px;
     line-height: 1.5;
@@ -952,7 +1003,7 @@ a:hover {
 }
 
 .tweet-composer-footer {
-    border-top: 1px solid #2f3336;
+    border-top: 1px solid var(--color-tweet-border);
     padding-top: 12px;
     display: flex;
     justify-content: space-between;
@@ -968,7 +1019,7 @@ a:hover {
 }
 .template-label {
     font-size: 11px;
-    color: #71767b;
+    color: var(--color-tweet-muted);
     font-weight: 500;
 }
 .template-buttons {
@@ -976,9 +1027,9 @@ a:hover {
     gap: 4px;
 }
 .template-btn {
-    background: #16181c;
-    border: 1px solid #2f3336;
-    color: #e7e9ea;
+    background: var(--color-template-btn-bg);
+    border: 1px solid var(--color-tweet-border);
+    color: var(--color-tweet-txt);
     font-size: 11px;
     padding: 4px 8px;
     border-radius: 12px;
@@ -987,7 +1038,7 @@ a:hover {
     transition: var(--transition-smooth);
 }
 .template-btn:hover {
-    background: #202327;
+    background: var(--color-border-glow);
 }
 .template-btn.active {
     background: rgba(29, 155, 240, 0.1);
@@ -1137,4 +1188,48 @@ a:hover {
     .drawer-sheet {
         max-width: 100%;
     }
+}
+
+/* ==========================================================================
+   THEME TOGGLE BUTTON
+   ========================================================================== */
+.theme-toggle {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-secondary);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    outline: none;
+    flex-shrink: 0;
+}
+
+.theme-toggle:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--color-text-primary);
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+:root[data-theme="light"] .theme-toggle {
+    background: rgba(0, 0, 0, 0.03);
+    color: var(--color-text-secondary);
+}
+
+:root[data-theme="light"] .theme-toggle:hover {
+    background: rgba(0, 0, 0, 0.06);
+    color: var(--color-text-primary);
+    border-color: rgba(0, 0, 0, 0.15);
+}
+
+.theme-toggle svg {
+    transition: transform 0.5s ease;
+}
+
+.theme-toggle:hover svg {
+    transform: rotate(20deg);
 }
