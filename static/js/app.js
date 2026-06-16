@@ -366,17 +366,47 @@ document.addEventListener('DOMContentLoaded', () => {
                     ${update.content}
                 </div>
                 <div class="card-actions">
+                    <div class="utility-actions">
+                        <button class="btn-card-utility btn-copy-card" aria-label="Copy update details" title="Copy update to clipboard">
+                            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            <span>Copy</span>
+                        </button>
+                        <button class="btn-card-utility btn-csv-card" aria-label="Export to CSV" title="Export this update to CSV">
+                            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+                            <span>CSV</span>
+                        </button>
+                    </div>
                     <button class="btn-card-tweet" aria-label="Compose tweet for this update">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
                         </svg>
-                        <span>Tweet Update</span>
+                        <span>Tweet</span>
                     </button>
                 </div>
             `;
 
             // Card click behavior (select card and open composer)
             card.addEventListener('click', () => {
+                selectUpdate(update);
+            });
+
+            // Prevent card selection on utility button clicks
+            const copyBtn = card.querySelector('.btn-copy-card');
+            const csvBtn = card.querySelector('.btn-csv-card');
+            const tweetBtn = card.querySelector('.btn-card-tweet');
+
+            copyBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                copyCardText(update);
+            });
+
+            csvBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                exportCardToCSV(update);
+            });
+
+            tweetBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
                 selectUpdate(update);
             });
 
@@ -569,6 +599,61 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error("Copy failed:", err);
                 showToast("Failed to copy text.");
             });
+    }
+
+    /**
+     * Copy full text details of a single card to clipboard
+     */
+    function copyCardText(update) {
+        const cleanDesc = stripHtml(update.content).replace(/\s+/g, ' ').trim();
+        const textToCopy = `[BigQuery Release - ${update.date}] (${update.type})\n${cleanDesc}\n\nRead more: ${update.link}`;
+        
+        navigator.clipboard.writeText(textToCopy)
+            .then(() => {
+                showToast("Update copied to clipboard!");
+            })
+            .catch(err => {
+                console.error("Copy failed:", err);
+                showToast("Failed to copy update.");
+            });
+    }
+
+    /**
+     * Export a single release note to a CSV file download
+     */
+    function exportCardToCSV(update) {
+        const headers = ["ID", "Date", "Type", "Content", "Link"];
+        const cleanDesc = stripHtml(update.content).replace(/\s+/g, ' ').trim();
+        const row = [update.id, update.date, update.type, cleanDesc, update.link];
+        
+        // Escape fields for CSV format
+        const csvString = [
+            headers.map(h => `"${h.replace(/"/g, '""')}"`).join(","),
+            row.map(v => `"${v.replace(/"/g, '""')}"`).join(",")
+        ].join("\r\n");
+        
+        try {
+            const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            
+            // Format file name
+            const dateSlug = update.date.replace(/[\s,]+/g, '-');
+            const filename = `bq-update-${dateSlug}-${update.type.toLowerCase()}.csv`;
+            
+            link.setAttribute("href", url);
+            link.setAttribute("download", filename);
+            link.style.visibility = 'hidden';
+            
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            showToast("CSV file downloaded!");
+        } catch (err) {
+            console.error("CSV export failed:", err);
+            showToast("Failed to export to CSV.");
+        }
     }
 
     /**

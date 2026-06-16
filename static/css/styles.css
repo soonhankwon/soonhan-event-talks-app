@@ -687,11 +687,40 @@ a:hover {
 /* Card Actions */
 .card-actions {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
+    align-items: center;
     border-top: 1px solid var(--color-border);
     padding-top: 14px;
     margin-top: 8px;
 }
+
+.utility-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-card-utility {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: transparent;
+    color: var(--color-text-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 8px 12px;
+    font-family: var(--font-primary);
+    font-weight: 500;
+    font-size: 13px;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.btn-card-utility:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: white;
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
 
 .btn-card-tweet {
     display: flex;
